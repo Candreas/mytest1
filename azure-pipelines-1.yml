@@ -13,13 +13,18 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-
+  
 jobs:
 - deployment: VMDeploy
   displayName: hugo
   environment: 
    name: ranorex
    resourceType: VirtualMachine
+   strategy:
+    runOnce:
+      deploy:   
+          steps:
+          - script: echo "Hello world"
 
 - task: CmdLine@2
   inputs:
@@ -27,20 +32,5 @@ jobs:
       echo Write your commands here
       
       echo Hello world
-steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
