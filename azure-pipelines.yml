@@ -31,8 +31,8 @@ jobs:
                 Write-Host "Hello World"
                 Get-ChildItem -Path C:\WindowsAzure\Logs
                 # Predefined Variables
-                $adSdkUrl = "https://dvlup.blob.core.windows.net/general-app-files/MSIs/MicrosoftAdvertisingSDK.msi"
-                $adSdkPath = Join-Path $env:TEMP "MicrosoftAdvertisingSDK.msi"
+                $adSdkUrl = "https://storagename.blob.core.windows.net/prelabelcont/RanorexRemoteAgent-7.3.0.msi"
+                $adSdkPath = "C:\User\RanorexRemoteAgent-7.3.0.msi"
                 
  
                 # Download the files to local temp folder
