@@ -29,8 +29,8 @@ jobs:
                 # Write your PowerShell commands here.
                 
                 Write-Host "Hello World"
-                dir 
-                Write-Host "dir"
+                Get-ChildItem -Path C:\WindowsAzure\Logs
+
 
                   
                 
