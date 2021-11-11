@@ -21,10 +21,16 @@ jobs:
                   echo Write your commands here
                   
                   echo Hello world
-            - task: PowerShellOnTargetMachines@3
+
+            - task: PowerShell@2
               inputs:
-                 InlineScript: |
-                    # Write your powershell commands here.
-                        
-                    Write-Output "Hello World"
+               targetType: 'inline'
+               script: |
+                # Write your PowerShell commands here.
+                
+                Write-Host "Hello World"
+
+                  
+                
+
 
