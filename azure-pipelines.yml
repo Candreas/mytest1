@@ -32,7 +32,7 @@ jobs:
                 Get-ChildItem -Path C:\WindowsAzure\Logs
                 # Predefined Variables
                 $adSdkUrl = "https://storagename.blob.core.windows.net/prelabelcont/RanorexRemoteAgent-7.3.0.msi"
-                $adSdkPath = "-Path C:\WindowsAzure\Logs"
+                $adSdkPath = "C:\WindowsAzure\Logs"
                 
  
                 # Download the files to local temp folder
