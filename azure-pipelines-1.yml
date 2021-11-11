@@ -16,16 +16,17 @@ variables:
 
 jobs:
 - deployment: VMDeploy
-  displayName: Deploy to VM
+  displayName: hugo
   environment: 
-   name: ContosoDeploy
+   name: ranorex
    resourceType: VirtualMachine
-  strategy:
-     runOnce:
-        deploy:   
-          steps:
-            - script: echo "Hello world"
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Write your commands here
+      
+      echo Hello world
 steps:
 - task: NuGetToolInstaller@1
 
