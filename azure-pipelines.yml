@@ -18,7 +18,7 @@ jobs:
             - task: CmdLine@2
               inputs:
                 script: |
-                  echo Write your commands here
+                  echo Write your commands here kk
                   
                   echo Hello world
 
