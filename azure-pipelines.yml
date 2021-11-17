@@ -4,48 +4,62 @@ trigger:
 pool: 
    vmImage: windows
 
-jobs:
-- deployment: hugo
-  displayName: Deploy to VM
-  environment: 
-   name: ranorex
-   resourceType: VirtualMachine
-  strategy:
-     runOnce:
-        deploy:   
-          steps:
-            - script: echo "Hello world"
-            - task: CmdLine@2
-              inputs:
-                script: |
-                  echo Write your commands here kk
-                  
-                  echo Hello world
+variables:
+  subscriptionId: 'd8cd2f9e-2816-4fe8-b17e-82f9204cab2e'
+  azureResourceManagerConnection: 'prod100'
+  storageAccountName: 'prod100'
+  storageAccountConnectionString: $STORAGECONNECTIONSTRING
+  containerName: templates$(Build.BuildId)
 
-            - task: PowerShell@2
-              inputs:
-               targetType: 'inline'
-               script: |
-                # Write your PowerShell commands here.
-                
-                Write-Host "Hello World"
-                Get-ChildItem -Path C:\WindowsAzure\Logs
-                # Predefined Variables
-                $adSdkUrl = "https://storagename.blob.core.windows.net/prelabelcont/RanorexRemoteAgent-7.3.0.msi"
-                $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-                
- 
-                # Download the files to local temp folder
-                Write-Output "downloading $adSdkUrl…"
-                Invoke-WebRequest -Uri $adSdkUrl -OutFile $adSDKPath 
-                # Install the SDKs (use the "qn" flag to install silently)
-                Write-Output "installing $adSdkPath…"
-                Start-Process $adSdkPath -ArgumentList "/q" -Wait
-                Write-Output " start Ranorex Agent"
-                $RanorexAgent  = "C:\Program Files (x86)\Ranorex\Agent\RanorexRemoteAgent"
-                #Start-Process $RanorexAgent  "/qn"   -Wait
-                #Start TestCase assuming Testagent is running
-                Start-Process C:\Users\hugo\Documents\GitHub\mytest1\MyTest1\mytest1.exe /agent:MyAgent
 
-                  
+stages:
+- stage: 'PublishTemplates'
+  displayName: 'Publish Templates'
+  jobs: 
+    - job: 'PublishTemplates'
+      steps:
+      - task: CmdLine@2
+        inputs:
+          script: |
+            echo $STORAGECONNECTIONSTRING
+            echo $(build.artifactstagingdirectory)
+            echo $(Build.BuildId)
+            echo Hello world
+      - task: CopyFiles@2
+        displayName: 'Copy composing to: $(build.artifactstagingdirectory)'
+        inputs:
+          SourceFolder: 'mytest1'
+          Contents:  
+            '**/*'
+            
+          TargetFolder: '$(build.artifactstagingdirectory)/templates'
+      - task: AzureCLI@2
+        displayName: "Create container $(Build.BuildId)"
+        inputs:
+          azureSubscription: ${{ variables.azureResourceManagerConnection }}
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'az storage container create --connection-string "${{ variables.storageAccountConnectionString }}" -n ${{ variables.containerName }} --account-name ${{ variables.storageAccountName }}'
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: ${{ variables.azureResourceManagerConnection }}
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(build.artifactstagingdirectory)/templates --connection-string "${{ variables.storageAccountConnectionString }}"'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: drop'
+
+- stage: 'DelployTemplates'
+  displayName: 'Deploy Templates'
+  jobs: 
+    - job: 'DelployTemplates'
+      steps:
+
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+    
 
