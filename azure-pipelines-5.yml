@@ -37,7 +37,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      Get-ChildItem -Path c:\agent_work\1\s
+      #Get-ChildItem -Path c:\agent_work\1\s
       Write-Host "Hello World"
       #Write-Host $(Build.StagingDirectory)/mytest1
       Write-Host "Hello World"
@@ -46,6 +46,10 @@ steps:
       Get-ChildItem -Path $(Build.StagingDirectory)\mytest1
       #Write-Host $(env)
       # Predefined Variables
-      $adSdkUrl = $(Build.SourcesDirectory)\mytest1
+      #$adSdkUrl = $(Build.SourcesDirectory)\mytest1
       #$adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-      Write-Host $(adSdkUrl)
+      #Write-Host $(adSdkUrl)
+- task: PublishSymbols@2
+  inputs:
+    SearchPattern: '**/bin/**/*.pdb'
+    SymbolServerType: ''
