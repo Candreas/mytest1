@@ -43,7 +43,7 @@ steps:
       Write-Host "Hello World"
       Write-Host "Hello World"
       Get-ChildItem -Path C:\WindowsAzure\Logs
-      Get-ChildItem -Path $(Build.StagingDirectory)
+      Get-ChildItem -Path $(Build.StagingDirectory)\MyTest1
       #Write-Host $(env)
       # Predefined Variables
       #$adSdkUrl = $(Build.SourcesDirectory)\MyTest1.sln
