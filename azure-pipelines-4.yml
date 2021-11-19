@@ -31,5 +31,5 @@ steps:
       # Predefined Variables
       $adSdkUrl = $(System.DefaultWorkingDirectory)\mytest1
       $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-      Write-Host $adSdkPath   
+      Write-Host $adSdkUrl   
      
