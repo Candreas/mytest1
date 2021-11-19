@@ -28,7 +28,7 @@ steps:
       Write-Host "Hello World"
       Get-ChildItem -Path C:\WindowsAzure\Logs
       # Predefined Variables
-      $adSdkUrl = $(System.DefaultWorkingDirectory)
+      $adSdkUrl = $(System.DefaultWorkingDirectory)/MyTest1
       $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
       Write-Host $adSdkPath   
      
