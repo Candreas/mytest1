@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: windows-2019
+
+steps:
+- script: |
+    echo $(build.artifactstagingdirectory)
+    dir $(build.artifactstagingdirectory)
+    dir c:\
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+  displayName: 'Run a multi-line script'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      
+      Write-Host "Hello World"
+      Write-Host "Hello World"
+                Get-ChildItem -Path C:\WindowsAzure\Logs
+                # Predefined Variables
+                $adSdkUrl = $(System.DefaultWorkingDirectory)\RanorexRemoteAgent-7.3.0.msi"
+                $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
+                
+ 
+                # Download the files to local temp folder
+                #Write-Output "downloading $adSdkUrl…"
+                #Invoke-WebRequest -Uri $adSdkUrl -OutFile $adSDKPath 
+                # Install the SDKs (use the "qn" flag to install silently)
+                Write-Output "installing $adSdkPath…"
+                Start-Process $adSdkPath -ArgumentList "/q" -Wait
+                Write-Output " start Ranorex Agent"
+                $RanorexAgent  = "C:\Program Files (x86)\Ranorex\Agent\RanorexRemoteAgent"
+                #Start-Process $RanorexAgent  "/qn"   -Wait
+                #Start TestCase assuming Testagent is running
+                #Start-Process C:\Users\hugo\Documents\GitHub\mytest1\MyTest1\mytest1.exe /agent:MyAgent
