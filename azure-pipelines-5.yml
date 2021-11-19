@@ -37,7 +37,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      
+      Get-ChildItem -Path c:\agent_work\1\s
       Write-Host "Hello World"
       #Write-Host $(Build.StagingDirectory)/mytest1
       Write-Host "Hello World"
