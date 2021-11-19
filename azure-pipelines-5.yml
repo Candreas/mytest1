@@ -43,13 +43,9 @@ steps:
       Write-Host "Hello World"
       Write-Host "Hello World"
       Get-ChildItem -Path C:\WindowsAzure\Logs
-      #Get-ChildItem -Path $(Build.StagingDirectory)\mytest1
+      Get-ChildItem -Path $(Build.StagingDirectory)
       #Write-Host $(env)
       # Predefined Variables
       #$adSdkUrl = $(Build.SourcesDirectory)\mytest1
       #$adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
       #Write-Host $(adSdkUrl)
-- task: PublishSymbols@2
-  inputs:
-    SearchPattern: '**/bin/**/*.pdb'
-    SymbolServerType: ''
