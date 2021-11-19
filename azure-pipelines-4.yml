@@ -28,17 +28,7 @@ steps:
       Write-Host "Hello World"
       Get-ChildItem -Path C:\WindowsAzure\Logs
       # Predefined Variables
-      $adSdkUrl = $(System.DefaultWorkingDirectory)\RanorexRemoteAgent-7.3.0.msi"
+      $adSdkUrl = $(System.DefaultWorkingDirectory)
       $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-             
-      # Download the files to local temp folder
-      #Write-Output "downloading $adSdkUrl…"
-      #Invoke-WebRequest -Uri $adSdkUrl -OutFile $adSDKPath 
-      # Install the SDKs (use the "qn" flag to install silently)
-      Write-Output "installing $adSdkPath…"
-      Start-Process $adSdkPath -ArgumentList "/q" -Wait
-      Write-Output " start Ranorex Agent"
-      $RanorexAgent  = "C:\Program Files (x86)\Ranorex\Agent\RanorexRemoteAgent"
-      Start-Process $RanorexAgent  "/qn"   -Wait
-      #Start TestCase assuming Testagent is running
-      #Start-Process C:\Users\hugo\Documents\GitHub\mytest1\MyTest1\mytest1.exe /agent:MyAgent
+      Write-Host $adSdkPath   
+     
