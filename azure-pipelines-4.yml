@@ -39,6 +39,6 @@ steps:
       Start-Process $adSdkPath -ArgumentList "/q" -Wait
       Write-Output " start Ranorex Agent"
       $RanorexAgent  = "C:\Program Files (x86)\Ranorex\Agent\RanorexRemoteAgent"
-      #Start-Process $RanorexAgent  "/qn"   -Wait
+      Start-Process $RanorexAgent  "/qn"   -Wait
       #Start TestCase assuming Testagent is running
       #Start-Process C:\Users\hugo\Documents\GitHub\mytest1\MyTest1\mytest1.exe /agent:MyAgent
