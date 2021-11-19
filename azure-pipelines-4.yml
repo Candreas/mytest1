@@ -16,6 +16,7 @@ steps:
     dir c:\
   displayName: 'Run a one-line script'
 
+- task: NuGetToolInstaller@1
 - script: |
     echo Add other tasks to build, test, and deploy your project.
   displayName: 'Run a multi-line script'
