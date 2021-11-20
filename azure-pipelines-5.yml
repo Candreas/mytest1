@@ -46,7 +46,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
       
-      echo Hello world
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
