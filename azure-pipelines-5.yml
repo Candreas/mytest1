@@ -34,6 +34,17 @@ steps:
       echo $(buildPlatform)
       echo $(buildConfiguration)
       echo $(Build.StagingDirectory)
+      echo $(System.DefaultWorkingDirectory)
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
       
       echo Hello world
 - task: VSTest@2
