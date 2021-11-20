@@ -27,7 +27,14 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo $(buildPlatform)
+      echo $(buildConfiguration)
+      echo $(buildConfiguration)
+      
+      echo Hello world
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -43,7 +50,7 @@ steps:
       Write-Host "Hello World"
       Write-Host "Hello World"
       Get-ChildItem -Path C:\WindowsAzure\Logs
-      Get-ChildItem -Path $(Build.StagingDirectory)\MyTest1
+      Get-ChildItem -Path $(Build.StagingDirectory)
       #Write-Host $(env)
       # Predefined Variables
       #$adSdkUrl = $(Build.SourcesDirectory)\MyTest1.sln
