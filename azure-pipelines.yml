@@ -39,7 +39,7 @@ stages:
           script: |
             echo echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
             dir $(build.artifactstagingdirectory)\${{ variables.containerName }}
-            dir mytest1\MyTest1\bin
+            dir mytest1/MyTest1/bin
             echo Hello world
 
 
