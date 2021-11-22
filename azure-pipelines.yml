@@ -38,10 +38,10 @@ stages:
       - task: CmdLine@2
         inputs:
           script: |
-            echo echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
+            echo  $(build.artifactstagingdirectory)\${{ variables.containerName }}
             dir $(build.artifactstagingdirectory)\${{ variables.containerName }}
             dir $(System.DefaultWorkingDirectory)
-            echo Hello world
+            echo System default working directory
             echo $(System.DefaultWorkingDirectory) 
             dir $(System.DefaultWorkingDirectory) 
 
@@ -57,7 +57,7 @@ stages:
           azureSubscription: '${{ variables.azureResourceManagerConnection }}'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(build.artifactstagingdirectory)\${{variables.containerName}}  --pattern dir/* --connection-string "${{ variables.storageAccountConnectionString }}"'
+          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(build.artifactstagingdirectory)\${{variables.containerName}}  --pattern **/bin/** --connection-string "${{ variables.storageAccountConnectionString }}"'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
