@@ -45,7 +45,7 @@ stages:
             echo $(System.DefaultWorkingDirectory) 
             dir $(System.DefaultWorkingDirectory) 
 
-      - task: 
+      - task: AzureCLI@2
         displayName: "Create container $(Build.BuildId)"
         inputs:
           azureSubscription: ${{ variables.azureResourceManagerConnection }}
