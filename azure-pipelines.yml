@@ -10,6 +10,7 @@ variables:
   storageAccountName: 'prod100'
   storageAccountConnectionString: $STORAGECONNECTIONSTRING
   containerName: templates$(Build.BuildId)
+  
 
 
 stages:
@@ -45,6 +46,7 @@ stages:
             echo System default working directory
             echo $(System.DefaultWorkingDirectory) 
             dir $(System.DefaultWorkingDirectory) 
+            echo TargetFolder
 
       - task: AzureCLI@2
         displayName: "Create container $(Build.BuildId)"
@@ -58,7 +60,7 @@ stages:
           azureSubscription: '${{ variables.azureResourceManagerConnection }}'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s Targetfolder  --pattern **/bin/** --connection-string "${{ variables.storageAccountConnectionString }}"'
+          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s  D:\a\1\a\   --connection-string "${{ variables.storageAccountConnectionString }}"'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
