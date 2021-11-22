@@ -25,7 +25,7 @@ jobs:
   - task: CmdLine@2
     displayName: Ranorex_prelabel_execution
     inputs:
-      script: $(System.DefaultWorkingDirectory)\Prelabel\Prelabel\bin\Debug\Prelabel.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
+      script: $(System.DefaultWorkingDirectory)\mytest1\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
   - task: VisualStudioTestPlatformInstaller@1
     displayName: Visual Studio Test Platform Installer
     continueOnError: True
