@@ -22,9 +22,10 @@ stages:
         inputs:
           script: |
             echo $(STORAGECONNECTIONSTRING)
+            echo 'ARTIFACT STAGING DIRECTORY'
             echo $(build.artifactstagingdirectory)
             echo $(Build.BuildId)
-            echo Hello world
+            echo H e l l o w o r l d
             echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
             echo $(System.DefaultWorkingDirectory)
       - task: CopyFiles@2
