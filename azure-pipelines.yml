@@ -45,7 +45,6 @@ stages:
             echo $(System.DefaultWorkingDirectory) 
             dir $(System.DefaultWorkingDirectory) 
 
-
       - task: 
         displayName: "Create container $(Build.BuildId)"
         inputs:
