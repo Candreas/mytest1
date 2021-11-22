@@ -56,7 +56,7 @@ stages:
           azureSubscription: ${{ variables.azureResourceManagerConnection }}
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(System.DefaultWorkingDirectory)/MyTest1 --connection-string "${{ variables.storageAccountConnectionString }}"'
+          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(System.DefaultWorkingDirectory) --connection-string "${{ variables.storageAccountConnectionString }}"'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
