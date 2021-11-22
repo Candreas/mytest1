@@ -34,14 +34,15 @@ stages:
             '**/*'
             
           TargetFolder: '$(build.artifactstagingdirectory)\${{variables.containerName}}'
+      - task: CmdLine@2
+        inputs:
+          script: |
+            echo echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
+            dir $(build.artifactstagingdirectory)\${{ variables.containerName }}
+            
+            echo Hello world
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
-      dir $(build.artifactstagingdirectory)\${{ variables.containerName }}
-      
-      echo Hello world
+
       - task: AzureCLI@2
         displayName: "Create container $(Build.BuildId)"
         inputs:
