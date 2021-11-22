@@ -32,7 +32,7 @@ stages:
           Contents:  
             '**/*'
             
-          TargetFolder: '$(build.artifactstagingdirectory)/templates'
+          TargetFolder: '$(build.artifactstagingdirectory)/${{variables.containerName}}'
       - task: AzureCLI@2
         displayName: "Create container $(Build.BuildId)"
         inputs:
