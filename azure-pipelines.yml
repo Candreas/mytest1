@@ -21,7 +21,7 @@ stages:
       - task: CmdLine@2
         inputs:
           script: |
-            echo $STORAGECONNECTIONSTRING
+            echo $(STORAGECONNECTIONSTRING)
             echo $(build.artifactstagingdirectory)
             echo $(Build.BuildId)
             echo Hello world
