@@ -1,4 +1,4 @@
-trigger: 
+azure cltrigger: 
 - main
 
 pool: 
@@ -42,9 +42,11 @@ stages:
             dir $(build.artifactstagingdirectory)\${{ variables.containerName }}
             dir $(System.DefaultWorkingDirectory)
             echo Hello world
+            echo $(System.DefaultWorkingDirectory) 
+            dir $(System.DefaultWorkingDirectory) 
 
 
-      - task: AzureCLI@2
+      - task: 
         displayName: "Create container $(Build.BuildId)"
         inputs:
           azureSubscription: ${{ variables.azureResourceManagerConnection }}
