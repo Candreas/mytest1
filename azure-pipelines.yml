@@ -25,7 +25,7 @@ stages:
             echo $(build.artifactstagingdirectory)
             echo $(Build.BuildId)
             echo Hello world
-            echo $(build.artifactstagingdirectory)/${{ variables.containerName }}
+            echo $(build.artifactstagingdirectory)\${{ variables.containerName }}
       - task: CopyFiles@2
         displayName: 'Copy composing to: $(build.artifactstagingdirectory)'
         inputs:
@@ -46,7 +46,7 @@ stages:
           azureSubscription: ${{ variables.azureResourceManagerConnection }}
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(build.artifactstagingdirectory)/${{ variables.containerName }} --connection-string "${{ variables.storageAccountConnectionString }}"'
+          inlineScript: 'az storage blob upload-batch --account-name ${{ variables.storageAccountName }} -d ${{ variables.containerName }} -s $(build.artifactstagingdirectory)\${{ variables.containerName }} --connection-string "${{ variables.storageAccountConnectionString }}"'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
