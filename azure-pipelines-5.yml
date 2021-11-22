@@ -1,70 +1,72 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- main
-
-pool:
-  vmImage: 'windows-latest'
-
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86'
-  buildConfiguration: 'Debug'
+- name: BuildParameters.solution
+  value: '**\*.sln'
+name: $(date:yyyyMMdd)$(rev:.r)
+jobs:
+- job: Job_1
+  displayName: Prelabel_PoC
+  pool:
+    vmImage: windows-2019
+  steps:
+  - checkout: self
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 4.4.1
+    inputs:
+      versionSpec: 4.4.1
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      solution: $(BuildParameters.solution)
+  - task: VSBuild@1
+    displayName: Build solution **\*.sln
+    condition: succeededOrFailed()
+    inputs:
+      solution: $(BuildParameters.solution)
+  - task: CmdLine@2
+    displayName: Ranorex_prelabel_execution
+    inputs:
+      script: $(System.DefaultWorkingDirectory)\Prelabel\Prelabel\bin\Debug\Prelabel.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
+  - task: VisualStudioTestPlatformInstaller@1
+    displayName: Visual Studio Test Platform Installer
+    continueOnError: True
+  - task: VSTest@2
+    displayName: VsTest - testAssemblies
+    condition: succeededOrFailed()
+    enabled: False
+    inputs:
+      testAssemblyVer2: >-
+        **\$(BuildConfiguration)\*test*.dll
 
-steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    clean: true
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo $(buildPlatform)
-      echo $(buildConfiguration)
-      echo $(Build.StagingDirectory)
-      echo $(System.DefaultWorkingDirectory)
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-      
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      #Get-ChildItem -Path c:\agent_work\1\s
-      Write-Host "Hello World"
-      #Write-Host $(Build.StagingDirectory)/mytest1
-      Write-Host "Hello World"
-      Write-Host "Hello World"
-      Get-ChildItem -Path C:\WindowsAzure\Logs
-      Get-ChildItem -Path $(Build.StagingDirectory)
-      #Write-Host $(env)
-      # Predefined Variables
-      #$adSdkUrl = $(Build.SourcesDirectory)\MyTest1.sln
-      #$adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-      #Write-Host $(adSdkUrl)
+        !**\obj\**
+      vsTestVersion: toolsInstaller
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    enabled: False
+  - task: PublishSymbols@2
+    displayName: Publish symbols path
+    continueOnError: True
+    inputs:
+      SearchPattern: '**\bin\**\*.pdb'
+      PublishSymbols: false
+      SymbolServerType: TeamServices
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    condition: succeededOrFailed()
+    inputs:
+      SourceFolder: $(system.defaultworkingdirectory)
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: $(build.artifactstagingdirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: Ranorex report
+    condition: succeededOrFailed()
+    inputs:
+      PathtoPublish: $(System.DefaultWorkingDirectory)\Reports\
+      ArtifactName: Ranorex report
+      TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
+  - task: PublishTestResults@2
+    displayName: Publish Ranorex Test Results
+    inputs:
+      testResultsFiles: '**/*.xml'
+...
