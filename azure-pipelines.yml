@@ -25,6 +25,7 @@ stages:
             echo $(build.artifactstagingdirectory)
             echo $(Build.BuildId)
             echo Hello world
+            echo $(build.artifactstagingdirectory)/${{ variables.containerName }}
       - task: CopyFiles@2
         displayName: 'Copy composing to: $(build.artifactstagingdirectory)'
         inputs:
