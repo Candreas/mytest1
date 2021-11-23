@@ -11,7 +11,7 @@ variables:
   storageAccountConnectionString: $STORAGECONNECTIONSTRING
   containerName: templates$(Build.BuildId)
   tool : 'https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe'
-
+  tool2 : https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe
 
 stages:
 - stage: 'PublishTemplates'
