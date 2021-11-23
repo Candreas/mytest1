@@ -74,7 +74,7 @@ stages:
           azureSubscription: '${{ variables.azureResourceManagerConnection }}'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob download --container-name ${{ variables.containerName/test }}  --name tool --file '$(System.DefaultWorkingDirectory)''  --connection-string "${{ variables.storageAccountConnectionString }}"'
+          inlineScript: 'az storage blob download --container-name ${{ variables.containerName}}\test  --name tool --file $(System.DefaultWorkingDirectory)  --connection-string "${{ variables.storageAccountConnectionString }}"'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
  
       - task: PublishBuildArtifacts@1
