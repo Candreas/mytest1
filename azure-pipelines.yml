@@ -68,7 +68,7 @@ stages:
         inputs:
           script: 
            #$(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
-           $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi
+           msiexec /i $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi /quiet
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
