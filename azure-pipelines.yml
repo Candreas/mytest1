@@ -75,7 +75,7 @@ stages:
           targetType: 'inline'
           script: |
             # Write your PowerShell commands here.
-            Invoke-WebRequest -Uri https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe -OutFile $env:TEMP
+            Invoke-WebRequest -Uri https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe -OutFile $(System.DefaultWorkingDirectory)
             Write-Host "Hello World"
 
       - task: PublishBuildArtifacts@1
