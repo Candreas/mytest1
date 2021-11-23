@@ -10,8 +10,7 @@ variables:
   storageAccountName: 'prod100'
   storageAccountConnectionString: $STORAGECONNECTIONSTRING
   containerName: templates$(Build.BuildId)
-  tool : 'https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe'
-  tool2 : https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe
+  tool : https://prod100.blob.core.windows.net/test/AUDIPrelabelTool_Setup_1.8.2.1222.exe
 
 stages:
 - stage: 'PublishTemplates'
@@ -70,14 +69,14 @@ stages:
            #$(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
            msiexec /i $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi /quiet
 
-      - task: PowerShell@2
+      - task: AzureCLI@2
         inputs:
-          targetType: 'inline'
-          script: |
-            # Write your PowerShell commands here.
-            Invoke-WebRequest -Uri https://prod100.blob.core.windows.net/tools/AUDIPrelabelTool_Setup_1.8.2.1222.exe -OutFile $(System.DefaultWorkingDirectory)
-            Write-Host "Hello World"
-
+          azureSubscription: '${{ variables.azureResourceManagerConnection }}'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'az storage blob download --container-name ${{ variables.containerName/test }}  --name tool --file $(System.DefaultWorkingDirectory)  --connection-string "${{ variables.storageAccountConnectionString }}"'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+ 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
