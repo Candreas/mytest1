@@ -9,6 +9,11 @@ trigger:
 pool:
   vmImage: windows-2019
 
+variables:
+- name : 'agentinstall'
+  value: '$(Build.SourcesDirectory)\mytest1\RanorexRemoteAgent-7.3.0.msi'
+#- workingdir: $System.workingdirectory
+   
 steps:
 - script: |
     echo $(build.artifactstagingdirectory)
@@ -30,7 +35,7 @@ steps:
       Get-ChildItem -Path C:\WindowsAzure\Logs
       Write-Host $(env)
       # Predefined Variables
-      $adSdkUrl = $(Build.SourcesDirectory)\mytest1
-      $adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
-      Write-Host $(adSdkUrl)   
+      #$adSdkUrl = $(Build.SourcesDirectory)\mytest1
+      #$adSdkPath = Join-Path $env:TEMP "RanorexRemoteAgent-7.3.0.msi"
+      Write-Host agentinstall   
      
