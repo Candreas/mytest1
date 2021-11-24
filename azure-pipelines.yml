@@ -13,10 +13,10 @@ variables:
   tool : https://prod100.blob.core.windows.net/test/AUDIPrelabelTool_Setup_1.8.2.1222.exe
 
 stages:
-- stage: 'PublishTemplates'
-  displayName: 'Publish Templates'
+- stage: 'SetupInfra'
+  displayName: 'SetupInfra'
   jobs: 
-    - job: 'PublishTemplates'
+    - job: 'SetupInfra'
       steps:
       - task: CmdLine@2
         inputs:
@@ -69,15 +69,20 @@ stages:
            #$(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
            msiexec /i $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi /quiet
 
-      
+      - task: CmdLine@2
+        inputs:
+          script: |
+            echo TestExecution 
+            $(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
+            echo test execution done
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
 
-- stage: 'DelployTemplates'
-  displayName: 'Deploy Templates'
+- stage: 'TestResults'
+  displayName: 'Test Results'
   jobs: 
-    - job: 'DelployTemplates'
+    - job: 'Testresults'
       steps:
 
       - task: DownloadBuildArtifacts@0
