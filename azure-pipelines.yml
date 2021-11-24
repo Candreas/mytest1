@@ -26,11 +26,10 @@ stages:
           steps:
             - script: echo "Hello world"
 
-- stage: 'SetupInfra'
-  displayName: 'SetupInfra'
-  jobs: 
-    - job: 'SetupInfra'
-      steps:
+
+   
+  - job: 'SetupInfra'
+    steps:
       - task: CmdLine@2
         inputs:
           script: |
