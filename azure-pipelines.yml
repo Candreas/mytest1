@@ -73,7 +73,7 @@ stages:
         inputs:
           script: |
             echo TestExecution 
-            $(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
+            $(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe / quiet
             echo test execution done
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
