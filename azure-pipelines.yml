@@ -27,18 +27,6 @@ stages:
            - script: echo Running in the Staging environment as deployment job
              displayName: 'Staging based stage'
            - task: CmdLine@2
-             inputs:
-               script: |
-                 echo $(STORAGECONNECTIONSTRING)  
-           - task: CopyFiles@2
-             displayName: 'Copy composing to: $(build.artifactstagingdirectory)'
-             inputs:
-               SourceFolder: 'mytest1'
-               Contents:  
-                '**/*'
-            
-               TargetFolder: '$(build.artifactstagingdirectory)\${{variables.containerName}}'
-           - task: CmdLine@2
              displayName: TestExecution
              inputs:
               script: |
