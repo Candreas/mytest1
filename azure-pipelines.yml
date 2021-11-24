@@ -69,14 +69,7 @@ stages:
            #$(System.DefaultWorkingDirectory)\MyTest1\bin\Debug\MyTest1.exe /m /junit /zr /zrf:Reports/Reprtforbuild.rxlog
            msiexec /i $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi /quiet
 
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: '${{ variables.azureResourceManagerConnection }}'
-          scriptType: 'bash'
-          scriptLocation: 'inlineScript'
-          inlineScript: 'az storage blob download --container-name ${{ variables.containerName}}\test  --name tool --file $(System.DefaultWorkingDirectory)  --connection-string "${{ variables.storageAccountConnectionString }}"'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
- 
+      
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
 
