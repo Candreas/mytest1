@@ -13,6 +13,19 @@ variables:
   tool : https://prod100.blob.core.windows.net/test/AUDIPrelabelTool_Setup_1.8.2.1222.exe
 
 stages:
+- stage: 'VM'
+  jobs:
+  - deployment: VMDeploy
+    displayName: 'Deploy to VM'
+    environment: 
+      name: Ranorex
+      resourceType: VirtualMachine
+    strategy:
+     runOnce:
+        deploy:   
+          steps:
+            - script: echo "Hello world"
+
 - stage: 'SetupInfra'
   displayName: 'SetupInfra'
   jobs: 
@@ -70,6 +83,7 @@ stages:
            msiexec /i $(System.DefaultWorkingDirectory)\MyTest1\RanorexRemoteAgent-7.3.0.msi /quiet
 
       - task: CmdLine@2
+        displayName: TestExecution
         inputs:
           script: |
             echo TestExecution 
